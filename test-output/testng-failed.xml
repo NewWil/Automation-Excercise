@@ -5,7 +5,7 @@
     <classes>
       <class name="AutomationExcercise.RegisterUser">
         <methods>
-          <include name="RegUser"/>
+          <include name="Test_Cases_Page"/>
           <include name="teardown"/>
           <include name="launchBrower"/>
         </methods>

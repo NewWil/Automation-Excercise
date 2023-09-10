@@ -3,6 +3,7 @@ package AutomationExcercise;
 import static org.testng.Assert.assertEquals;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
@@ -532,22 +533,181 @@ public class RegisterUser extends BaseClass {
 		 ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
 		 
 		 element.click();
-	
+		 
+		 //8. User is landed to product detail page
+		 String Actual = "Automation Exercise - Product Details";
+		 String Exp_Title = driver.getTitle();
+		 
+		 if(Actual.equals(Exp_Title))
+		 {		 
+			 System.out.println("User is Landed to Product Detail Page!");
+		 }else {
+			 System.out.println("User is NOT Landed to Product Detail Page!");
+			 
+		 }
+		 
+		 
+		 // 9. Verify that detail detail is visible: product name, category, price, availability, condition, brand
+
+		 //Product Name
+		 String Actual_Product_Name =  "Blue Top";
+		 WebElement Product_Name = driver.findElement(By.xpath("//h2[contains(text(),'Blue Top')]"));
+
+		 if(Actual_Product_Name.equals(Product_Name.getText())) {
+			 System.out.println("Product Name is Visible");
+		 }
+		 else {
+			 System.out.println("Product Name is NOT Visible!");
+		 }
+		 
+		 
+		 //Category Name
+		 String Actual_Category_Name =  "Category: Women > Tops";
+		 WebElement Category_Name = driver.findElement(By.xpath("//p[contains(text(),'Category: Women > Tops')]"));
+
+		 if(Actual_Category_Name.equals(Category_Name.getText())) {
+			 System.out.println("Category Name is Visible");
+		 }
+		 else {
+			 System.out.println("Category Name is NOT Visible!");
+		 }
+		 
+		 //Price
+		 String Actual_Price =  "Rs. 500";
+		 WebElement Price = driver.findElement(By.xpath("//span[contains(text(),'Rs. 500')]"));
+
+		 if(Actual_Price.equals(Price.getText())) {
+			 System.out.println("Price is Visible");
+		 }
+		 else {
+			 System.out.println("Price is NOT Visible!");
+		 }
+		 
+
+		 //Price
+		 String Actual_Availability =  "Availability: In Stock";
+		 WebElement Availability = driver.findElement(By.xpath("//p[contains(text(),'In Stock')]"));
+		
+		 if (Actual_Availability.equals(Availability.getText())) {
+				System.out.println("Availability is Visible");
+		} 
+		 else {
+				System.out.println("Availability is NOT Visible!");
+		}
+		 
+
+		 //Condition
+		 String Actual_Condition =  "Condition: New";
+		 WebElement Condition = driver.findElement(By.xpath("//p[contains(text(),'New')]"));
+		
+		 if (Actual_Condition.equals(Condition.getText())) {
+				System.out.println("Condition is Visible");
+		} 
+		 else {
+				System.out.println("Condition is NOT Visible!");
+		}
+		 
+		 //Brand
+		 String Actual_Brand =  "Brand: Polo";
+		 WebElement Brand = driver.findElement(By.xpath("//p[contains(text(), 'Polo')]"));
+		
+		 if (Actual_Brand.equals(Brand.getText())) {
+				System.out.println("Brand is Visible");
+		} 
+		 else {
+				System.out.println("Brand is NOT Visible!");
+		}
+		 
 }
+												/*--Test Case 9: Search Product--*/
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Test
+	public void search_Product() {
+		
+		// Click on 'Products' button
+		driver.findElement(By.xpath("//a[@href='/products']")).click();
+		
+		//Verify user is navigated to ALL PRODUCTS page successfully
+		String Exp_Product = "ALL PRODUCTS";
+		WebElement Actual_Product = driver.findElement(By.xpath("//h2[contains(text(),'All Products')]"));
+		
+		if(Exp_Product.equals(Actual_Product.getText())) {
+			System.out.println("User is Navigated to ALL PRODUCTS page successfully!");
+		}else {
+			System.out.println("User is NOT Navigated to ALL PRODUCTS page successfully!");
+		}
+		
+		//Enter product name in search input and click search button
+		//enter Product and CLick
+		WebElement search_Product = driver.findElement(By.id("search_product"));
+				search_Product.sendKeys("White");
+		driver.findElement(By.id("submit_search")).click();
+		
+		//Verify 'SEARCHED PRODUCTS' is visible
+		String Act_Searched_Product = "SEARCHED PRODUCTS";
+		
+		//Wait the result of the search product
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		WebElement Exp_Searched_Product = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(text(),'Searched Products')]")));
+
+		if(Act_Searched_Product.equals(Exp_Searched_Product.getText())) {
+			System.out.println("SEARCHED PRODUCT is Visible!");
+		}else {
+			System.out.println("SEARCHED PRODUCT is NOT Visible!");
+		}
+		
+		//Verify all the products related to search are visible
+		WebDriverWait wait_related_search = new WebDriverWait(driver, Duration.ofSeconds(5));
+		WebElement exp_related_search = wait_related_search.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'White')]")));
+		
+		String search = "White";
+		
+		List<WebElement> search_results = driver.findElements(By.xpath("//p[contains(text(),'White')]"));
+		for(WebElement result: search_results) {
+			String resultText = result.getText();
+			
+			if(resultText.contains("White")) {
+				System.out.println("Search Result is Match!" + resultText);
+			} /*
+				 * else { System.out.println("Search Result NOT Match!"); }
+				 */
+				
+		}
+	}
+	 				
+																/*--Test Case 10: Verify Subscription in home page--*/
+	@Test
+	public void Subsciption_HomePpage() {
+		
+		//Scroll down to footer
+		 WebElement element = driver.findElement(By.id("susbscribe_email"));
+		 ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+		 
+		 //Verify text 'SUBSCRIPTION'
+		 String Exp_Subscription = "SUBSCRIPTION";
+		 WebElement Actual_Subscription = driver.findElement(By.xpath("//h2[contains(text(), 'Subscription')]"));
+		 
+		 if(Actual_Subscription.getText().equals(Exp_Subscription)) {
+			 System.out.println("SUBSCRIPTION TEXT is Verified!");
+		 }else {
+			 System.out.println("SUBSCRIPTION TEXT is NOT Verified!");
+		 }
+		 
+		 
+		 //Enter email address in input and click arrow button
+		 driver.findElement(By.id("susbscribe_email")).sendKeys("Test@gmail.com");
+		 driver.findElement(By.id("subscribe")).click();
+		 
+		 //Verify success message 'You have been successfully subscribed!' is visible
+		 String Exp_Message = "You have been successfully subscribed!";
+		 WebElement Actual_Message = driver.findElement(By.xpath("//div[@class='alert-success alert']"));
+		 
+		 if(Actual_Message.getText().equals(Exp_Message)) {
+			 System.out.println("Message has been sent!");
+		 }else {
+			 System.out.println("Message has NOT been sent!");
+		 }
+	}
 	
 	
 	
